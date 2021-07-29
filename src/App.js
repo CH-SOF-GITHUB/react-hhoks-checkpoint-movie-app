@@ -5,6 +5,11 @@ import { moviedata } from "./data";
 import NavBar from "./components/NavBar/NavBar";
 import MovieList from "./components/MovieList/MovieList";
 import AddMovie from "./components/AddMovie/AddMovie";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./components/NavBar/Home";
+import Login from "./components/NavBar/Login";
+import Details from "./components/Details/Details";
+
 
 function App() {
   const [movielist, setMovielist] = useState(moviedata);
@@ -28,11 +33,24 @@ function App() {
     setMovielist(movielist.filter((movie) => movie.id !== id))
   }
 
+  /* const routes = {
+    "/": () => <Home />,
+  "/about": () => <MovieList movies={movielist.filter((movie) => movie.title.toUpperCase().includes(title.toUpperCase()) && movie.rate >= rate)} handleDelete={handleDelete} />,
+  "/contact": () => <AddMovie handleAdd={handleAdd} />
+  } */
+
   return (
     <div className="App">
-      <NavBar title={title} handleChange={handleChange} rate={rate} ratingChanged={ratingChanged} />
-      <MovieList movies={movielist.filter((movie) => movie.title.toUpperCase().includes(title.toUpperCase()) && movie.rate >= rate)}  handleDelete={handleDelete}/>
-      <AddMovie handleAdd={handleAdd}/>
+      <Router>
+        <NavBar title={title} handleChange={handleChange} rate={rate} ratingChanged={ratingChanged} />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/movielist/:id" render={(props) => <Details {...props} mvlst={movielist} />} />
+        </Switch>
+        <MovieList movies={movielist.filter((movie) => movie.title.toUpperCase().includes(title.toUpperCase()) && movie.rate >= rate)} handleDelete={handleDelete} />
+        <AddMovie handleAdd={handleAdd} />
+      </Router>
     </div>
   );
 }

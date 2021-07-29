@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
+import { Link } from "react-router-dom";
 
 const MovieCard = ({ movie, handleDelete }) => {
     return (
@@ -23,7 +24,7 @@ const MovieCard = ({ movie, handleDelete }) => {
                     </Card.Text>
                     <div className="d-flex justify-content-around">
                         <Button variant="primary" onClick={() => handleDelete(movie.id)}>Delete</Button>
-                        <Button variant="primary">Go somewhere</Button>
+                        <Link to={`/movielist/${movie.id}`}><Button variant="primary">See Details</Button></Link>
                     </div>
                 </Card.Body>
             </Card>
